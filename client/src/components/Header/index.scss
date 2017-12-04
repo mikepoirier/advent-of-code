@@ -1,0 +1,14 @@
+$height: 64px;
+
+.toolbar {
+  background-color: lightgreen;
+  padding: 0.5rem 1rem;
+  height: $height;
+}
+
+.toolbar-title {
+  color: darkred;
+  text-decoration: none;
+  font-size: 1.5rem;
+
+}

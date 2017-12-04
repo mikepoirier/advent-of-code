@@ -1,0 +1,52 @@
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'io.mikepoirier'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+
+    dependsOn processResources
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencyManagement {
+    dependencies {
+        dependencySet(group: 'org.jetbrains.kotlin', version: '1.2.0') {
+            entry 'kotlin-reflect'
+            entry 'kotlin-stdlib'
+            entry 'kotlin-stdlib-jre7'
+            entry 'kotlin-stdlib-jre8'
+        }
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir '../client/build'
+        }
+    }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.projectreactor:reactor-test')
+}
