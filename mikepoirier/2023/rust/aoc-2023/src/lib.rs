@@ -2,7 +2,7 @@ use std::{fmt::Display, str::FromStr};
 
 use clap::Subcommand;
 
-use days::{Day01, Day02};
+use days::{Day01, Day02, Day03};
 pub use error::{Error, Result};
 use input::{load_input, save_input};
 
@@ -125,7 +125,7 @@ impl Solution for Day {
         match self {
             Day::Day01 => Day01.solve(input),
             Day::Day02 => Day02.solve(input),
-            Day::Day03 => todo!(),
+            Day::Day03 => Day03.solve(input),
             Day::Day04 => todo!(),
             Day::Day05 => todo!(),
             Day::Day06 => todo!(),

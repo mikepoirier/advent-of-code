@@ -10,26 +10,23 @@ use nom::{
     IResult,
 };
 
-use crate::{Error, Result, Solution, SolutionOutput};
+pub use error::{Error, Result};
 
-pub struct Day02;
+mod error;
 
-impl Solution for Day02 {
-    fn solve(&self, input: impl AsRef<str>) -> Result<SolutionOutput> {
-        let input = input.as_ref();
+pub fn part1(input: impl AsRef<str>) -> Result<u64> {
+    let input = input.as_ref();
+    let (_, games) = games(input).map_err(|e| Error::Nom(format!("{e}")))?;
+    let possible_games: Vec<_> = games.iter().filter(|g| g.possible(12, 13, 14)).collect();
+    let sum = possible_games.iter().map(|g| g.id).sum::<u64>();
+    Ok(sum)
+}
 
-        let (_, games) = games(input).map_err(|e| Error::Nom(format!("{e}")))?;
-
-        let possible_games: Vec<_> = games.iter().filter(|g| g.possible(12, 13, 14)).collect();
-
-        let part1 = possible_games.iter().map(|g| g.id).sum::<u64>();
-        let part2: u64 = games.iter().map(Game::power).sum();
-
-        Ok(SolutionOutput {
-            part1: Some(format!("{part1}")),
-            part2: Some(format!("{part2}")),
-        })
-    }
+pub fn part2(input: impl AsRef<str>) -> Result<u64> {
+    let input = input.as_ref();
+    let (_, games) = games(input).map_err(|e| Error::Nom(format!("{e}")))?;
+    let sum: u64 = games.iter().map(Game::power).sum();
+    Ok(sum)
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -181,16 +178,16 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 
     #[test]
     fn part1_works() {
-        let solution = Day02.solve(INPUT).unwrap();
+        let part1 = part1(INPUT).unwrap();
 
-        assert_eq!(solution.part1, Some("8".into()))
+        assert_eq!(part1, 8)
     }
 
     #[test]
     fn part2_works() {
-        let solution = Day02.solve(INPUT).unwrap();
+        let part2 = part2(INPUT).unwrap();
 
-        assert_eq!(solution.part2, Some("2286".into()))
+        assert_eq!(part2, 2286)
     }
 
     #[test]
